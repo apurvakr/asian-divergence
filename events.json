@@ -1,0 +1,77 @@
+[
+ {
+  "year": 1945,
+  "country": "Japan",
+  "label": "Japan surrenders; Korea and Taiwan leave Japanese rule"
+ },
+ {
+  "year": 1947,
+  "country": "India",
+  "label": "Independence and Partition"
+ },
+ {
+  "year": 1949,
+  "country": "China",
+  "label": "People's Republic founded"
+ },
+ {
+  "year": 1950,
+  "country": "South Korea",
+  "label": "Korean War begins (to 1953)"
+ },
+ {
+  "year": 1958,
+  "country": "China",
+  "label": "Great Leap Forward; famine to 1961"
+ },
+ {
+  "year": 1961,
+  "country": "South Korea",
+  "label": "Park Chung-hee seizes power; export-led industrial policy"
+ },
+ {
+  "year": 1965,
+  "country": "Singapore",
+  "label": "Singapore independent"
+ },
+ {
+  "year": 1966,
+  "country": "China",
+  "label": "Cultural Revolution begins"
+ },
+ {
+  "year": 1978,
+  "country": "China",
+  "label": "Deng's reform and opening"
+ },
+ {
+  "year": 1991,
+  "country": "India",
+  "label": "Balance-of-payments crisis; liberalisation"
+ },
+ {
+  "year": 1991,
+  "country": "Japan",
+  "label": "Asset bubble bursts; the lost decades begin"
+ },
+ {
+  "year": 1997,
+  "country": "South Korea",
+  "label": "Asian financial crisis"
+ },
+ {
+  "year": 2001,
+  "country": "China",
+  "label": "China joins the WTO"
+ },
+ {
+  "year": 2008,
+  "country": "United States",
+  "label": "Global financial crisis"
+ },
+ {
+  "year": 2020,
+  "country": "India",
+  "label": "Covid-19 shock"
+ }
+]

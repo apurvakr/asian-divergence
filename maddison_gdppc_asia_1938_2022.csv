@@ -1,0 +1,637 @@
+country,year,gdppc
+China,1938,1003
+China,1950,799
+China,1951,950
+China,1952,1047
+China,1953,1157
+China,1954,1049
+China,1955,1119
+China,1956,1189
+China,1957,1195
+China,1958,1173
+China,1959,1117
+China,1960,1057
+China,1961,874
+China,1962,926
+China,1963,1034
+China,1964,1152
+China,1965,1253
+China,1966,1261
+China,1967,1237
+China,1968,1178
+China,1969,1264
+China,1970,1398
+China,1971,1446
+China,1972,1431
+China,1973,1513
+China,1974,1519
+China,1975,1594
+China,1976,1519
+China,1977,1583
+China,1978,1744
+China,1979,1859
+China,1980,1930
+China,1981,1962
+China,1982,2128
+China,1983,2227
+China,1984,2444
+China,1985,2619
+China,1986,2748
+China,1987,2931
+China,1988,3045
+China,1989,3022
+China,1990,2982
+China,1991,3051
+China,1992,3228
+China,1993,3506
+China,1994,3730
+China,1995,4000
+China,1996,4220
+China,1997,4311
+China,1998,4310
+China,1999,4467
+China,2000,4730
+China,2001,4995
+China,2002,5343
+China,2003,5649
+China,2004,6068
+China,2005,6627
+China,2006,7271
+China,2007,7896
+China,2008,8190
+China,2009,8734
+China,2010,9658
+China,2011,10221
+China,2012,10947
+China,2013,11731
+China,2014,12515
+China,2015,13325
+China,2016,14139
+China,2017,15030
+China,2018,15977
+China,2019,16880
+China,2020,17226
+China,2021,18667
+China,2022,19238
+Hong Kong,1950,4082
+Hong Kong,1951,3688
+Hong Kong,1952,3846
+Hong Kong,1953,3982
+Hong Kong,1954,4124
+Hong Kong,1955,4280
+Hong Kong,1956,4450
+Hong Kong,1957,4626
+Hong Kong,1958,4799
+Hong Kong,1959,4957
+Hong Kong,1960,5088
+Hong Kong,1961,5169
+Hong Kong,1962,5780
+Hong Kong,1963,6381
+Hong Kong,1964,6664
+Hong Kong,1965,7414
+Hong Kong,1966,7412
+Hong Kong,1967,7474
+Hong Kong,1968,7696
+Hong Kong,1969,8534
+Hong Kong,1970,9250
+Hong Kong,1971,9787
+Hong Kong,1972,10632
+Hong Kong,1973,11717
+Hong Kong,1974,11719
+Hong Kong,1975,11456
+Hong Kong,1976,12929
+Hong Kong,1977,13986
+Hong Kong,1978,14689
+Hong Kong,1979,15903
+Hong Kong,1980,17086
+Hong Kong,1981,18301
+Hong Kong,1982,18527
+Hong Kong,1983,19349
+Hong Kong,1984,21042
+Hong Kong,1985,20883
+Hong Kong,1986,22823
+Hong Kong,1987,25414
+Hong Kong,1988,27063
+Hong Kong,1989,27377
+Hong Kong,1990,27960
+Hong Kong,1991,29009
+Hong Kong,1992,30203
+Hong Kong,1993,31242
+Hong Kong,1994,32219
+Hong Kong,1995,31942
+Hong Kong,1996,32262
+Hong Kong,1997,33386
+Hong Kong,1998,30866
+Hong Kong,1999,31134
+Hong Kong,2000,32894
+Hong Kong,2001,32734
+Hong Kong,2002,33038
+Hong Kong,2003,33594
+Hong Kong,2004,36053
+Hong Kong,2005,38192
+Hong Kong,2006,40173
+Hong Kong,2007,42231
+Hong Kong,2008,42635
+Hong Kong,2009,41076
+Hong Kong,2010,43171
+Hong Kong,2011,44532
+Hong Kong,2012,44795
+Hong Kong,2013,45998
+Hong Kong,2014,46942
+Hong Kong,2015,47654
+Hong Kong,2016,48385
+Hong Kong,2017,49841
+Hong Kong,2018,50848
+Hong Kong,2019,49631
+Hong Kong,2020,46550
+Hong Kong,2021,50006
+Hong Kong,2022,48289
+India,1938,1065
+India,1939,1074
+India,1940,1093
+India,1941,1101
+India,1942,1082
+India,1943,1113
+India,1944,1089
+India,1945,1058
+India,1946,991
+India,1947,985
+India,1948,983
+India,1949,995
+India,1950,987
+India,1951,993
+India,1952,1003
+India,1953,1047
+India,1954,1071
+India,1955,1078
+India,1956,1117
+India,1957,1084
+India,1958,1141
+India,1959,1143
+India,1960,1200
+India,1961,1208
+India,1962,1208
+India,1963,1242
+India,1964,1309
+India,1965,1229
+India,1966,1215
+India,1967,1286
+India,1968,1290
+India,1969,1347
+India,1970,1384
+India,1971,1364
+India,1972,1329
+India,1973,1360
+India,1974,1344
+India,1975,1430
+India,1976,1417
+India,1977,1494
+India,1978,1540
+India,1979,1427
+India,1980,1495
+India,1981,1557
+India,1982,1570
+India,1983,1663
+India,1984,1690
+India,1985,1720
+India,1986,1755
+India,1987,1793
+India,1988,1938
+India,1989,2024
+India,1990,2087
+India,1991,2062
+India,1992,2115
+India,1993,2176
+India,1994,2255
+India,1995,2356
+India,1996,2476
+India,1997,2514
+India,1998,2612
+India,1999,2708
+India,2000,2753
+India,2001,2838
+India,2002,2871
+India,2003,3036
+India,2004,3213
+India,2005,3397
+India,2006,3629
+India,2007,3871
+India,2008,4031
+India,2009,4271
+India,2010,4526
+India,2011,4768
+India,2012,4982
+India,2013,5224
+India,2014,5524
+India,2015,5870
+India,2016,6326
+India,2017,6639
+India,2018,7046
+India,2019,7294
+India,2020,6731
+India,2021,7315
+India,2022,7766
+Japan,1938,4257
+Japan,1939,4804
+Japan,1940,4882
+Japan,1941,4986
+Japan,1942,4939
+Japan,1943,4826
+Japan,1944,4816
+Japan,1945,3678
+Japan,1946,2771
+Japan,1947,2711
+Japan,1948,2857
+Japan,1949,2867
+Japan,1950,3062
+Japan,1951,3389
+Japan,1952,3724
+Japan,1953,3944
+Japan,1954,4116
+Japan,1955,4417
+Japan,1956,4699
+Japan,1957,4999
+Japan,1958,5243
+Japan,1959,5665
+Japan,1960,6354
+Japan,1961,7055
+Japan,1962,7614
+Japan,1963,8176
+Japan,1964,9035
+Japan,1965,9459
+Japan,1966,10370
+Japan,1967,11400
+Japan,1968,12725
+Japan,1969,14145
+Japan,1970,15484
+Japan,1971,16004
+Japan,1972,17110
+Japan,1973,18226
+Japan,1974,17765
+Japan,1975,18082
+Japan,1976,18600
+Japan,1977,19230
+Japan,1978,20060
+Japan,1979,20982
+Japan,1980,21404
+Japan,1981,21924
+Japan,1982,22440
+Japan,1983,22805
+Japan,1984,23548
+Japan,1985,24437
+Japan,1986,24992
+Japan,1987,25904
+Japan,1988,27393
+Japan,1989,28601
+Japan,1990,29949
+Japan,1991,30837
+Japan,1992,30978
+Japan,1993,30921
+Japan,1994,31135
+Japan,1995,31887
+Japan,1996,32784
+Japan,1997,33038
+Japan,1998,32558
+Japan,1999,32395
+Japan,2000,33211
+Japan,2001,33246
+Japan,2002,33195
+Japan,2003,33620
+Japan,2004,34314
+Japan,2005,34858
+Japan,2006,35333
+Japan,2007,35893
+Japan,2008,35496
+Japan,2009,33590
+Japan,2010,35011
+Japan,2011,34979
+Japan,2012,35537
+Japan,2013,36312
+Japan,2014,36440
+Japan,2015,37053
+Japan,2016,37385
+Japan,2017,38079
+Japan,2018,38404
+Japan,2019,38333
+Japan,2020,36827
+Japan,2021,37678
+Japan,2022,38269
+Singapore,1938,3363
+Singapore,1939,3912
+Singapore,1950,3572
+Singapore,1951,3368
+Singapore,1952,2342
+Singapore,1953,2794
+Singapore,1954,3202
+Singapore,1955,2946
+Singapore,1956,3241
+Singapore,1957,2874
+Singapore,1958,2880
+Singapore,1959,3239
+Singapore,1960,3464
+Singapore,1961,3623
+Singapore,1962,3775
+Singapore,1963,4049
+Singapore,1964,3800
+Singapore,1965,3991
+Singapore,1966,4317
+Singapore,1967,4741
+Singapore,1968,5294
+Singapore,1969,5931
+Singapore,1970,6650
+Singapore,1971,7318
+Singapore,1972,8155
+Singapore,1973,8894
+Singapore,1974,9314
+Singapore,1975,9602
+Singapore,1976,10178
+Singapore,1977,10790
+Singapore,1978,11588
+Singapore,1979,12521
+Singapore,1980,13601
+Singapore,1981,14335
+Singapore,1982,14687
+Singapore,1983,15720
+Singapore,1984,16767
+Singapore,1985,16611
+Singapore,1986,16831
+Singapore,1987,18345
+Singapore,1988,19853
+Singapore,1989,21221
+Singapore,1990,22666
+Singapore,1991,23637
+Singapore,1992,24776
+Singapore,1993,27074
+Singapore,1994,29455
+Singapore,1995,30957
+Singapore,1996,32724
+Singapore,1997,34868
+Singapore,1998,33590
+Singapore,1999,35156
+Singapore,2000,37773
+Singapore,2001,36865
+Singapore,2002,37830
+Singapore,2003,38951
+Singapore,2004,42111
+Singapore,2005,44699
+Singapore,2006,48074
+Singapore,2007,51844
+Singapore,2008,52180
+Singapore,2009,51344
+Singapore,2010,58613
+Singapore,2011,61672
+Singapore,2012,62856
+Singapore,2013,64822
+Singapore,2014,66499
+Singapore,2015,67674
+Singapore,2016,69211
+Singapore,2017,72292
+Singapore,2018,74518
+Singapore,2019,74650
+Singapore,2020,71965
+Singapore,2021,77945
+Singapore,2022,80320
+South Korea,1938,1935
+South Korea,1939,1611
+South Korea,1940,1975
+South Korea,1941,2107
+South Korea,1942,1646
+South Korea,1943,1686
+South Korea,1946,916
+South Korea,1947,937
+South Korea,1948,1099
+South Korea,1949,1189
+South Korea,1950,998
+South Korea,1951,991
+South Korea,1952,1038
+South Korea,1953,1317
+South Korea,1954,1373
+South Korea,1955,1411
+South Korea,1956,1382
+South Korea,1957,1467
+South Korea,1958,1518
+South Korea,1959,1556
+South Korea,1960,1548
+South Korea,1961,1606
+South Korea,1962,1620
+South Korea,1963,1721
+South Korea,1964,1835
+South Korea,1965,1917
+South Korea,1966,2094
+South Korea,1967,2232
+South Korea,1968,2468
+South Korea,1969,2764
+South Korea,1970,2975
+South Korea,1971,3222
+South Korea,1972,3388
+South Korea,1973,3822
+South Korea,1974,4113
+South Korea,1975,4362
+South Korea,1976,4856
+South Korea,1977,5368
+South Korea,1978,5856
+South Korea,1979,6266
+South Korea,1980,6064
+South Korea,1981,6399
+South Korea,1982,6821
+South Korea,1983,7612
+South Korea,1984,8304
+South Korea,1985,8859
+South Korea,1986,9756
+South Korea,1987,10865
+South Korea,1988,12040
+South Korea,1989,12759
+South Korea,1990,13874
+South Korea,1991,15056
+South Korea,1992,15712
+South Korea,1993,16503
+South Korea,1994,17720
+South Korea,1995,19089
+South Korea,1996,20205
+South Korea,1997,21056
+South Korea,1998,19625
+South Korea,1999,21541
+South Korea,2000,23108
+South Korea,2001,23804
+South Korea,2002,25251
+South Korea,2003,25679
+South Korea,2004,26647
+South Korea,2005,27443
+South Korea,2006,28516
+South Korea,2007,29717
+South Korea,2008,30118
+South Korea,2009,29968
+South Korea,2010,31538
+South Korea,2011,32225
+South Korea,2012,32826
+South Korea,2013,33712
+South Korea,2014,34573
+South Korea,2015,35358
+South Korea,2016,36255
+South Korea,2017,37296
+South Korea,2018,38214
+South Korea,2019,38936
+South Korea,2020,38607
+South Korea,2021,40278
+South Korea,2022,41321
+Taiwan,1938,2295
+Taiwan,1939,2200
+Taiwan,1940,1992
+Taiwan,1950,1460
+Taiwan,1951,1513
+Taiwan,1952,1639
+Taiwan,1953,1728
+Taiwan,1954,1825
+Taiwan,1955,1895
+Taiwan,1956,1926
+Taiwan,1957,1997
+Taiwan,1958,2056
+Taiwan,1959,2118
+Taiwan,1960,2157
+Taiwan,1961,2228
+Taiwan,1962,2326
+Taiwan,1963,2463
+Taiwan,1964,2676
+Taiwan,1965,2885
+Taiwan,1966,3054
+Taiwan,1967,3300
+Taiwan,1968,3484
+Taiwan,1969,3720
+Taiwan,1970,4044
+Taiwan,1971,4470
+Taiwan,1972,4962
+Taiwan,1973,5496
+Taiwan,1974,5455
+Taiwan,1975,5614
+Taiwan,1976,6245
+Taiwan,1977,6752
+Taiwan,1978,7519
+Taiwan,1979,7967
+Taiwan,1980,8384
+Taiwan,1981,8749
+Taiwan,1982,8910
+Taiwan,1983,9530
+Taiwan,1984,10394
+Taiwan,1985,10779
+Taiwan,1986,11918
+Taiwan,1987,13705
+Taiwan,1988,14183
+Taiwan,1989,15203
+Taiwan,1990,15841
+Taiwan,1991,16935
+Taiwan,1992,18101
+Taiwan,1993,19088
+Taiwan,1994,20269
+Taiwan,1995,21330
+Taiwan,1996,22390
+Taiwan,1997,23438
+Taiwan,1998,24131
+Taiwan,1999,25472
+Taiwan,2000,26787
+Taiwan,2001,26204
+Taiwan,2002,27426
+Taiwan,2003,28349
+Taiwan,2004,29975
+Taiwan,2005,31374
+Taiwan,2006,32867
+Taiwan,2007,34761
+Taiwan,2008,34762
+Taiwan,2009,33974
+Taiwan,2010,37385
+Taiwan,2011,38565
+Taiwan,2012,39291
+Taiwan,2013,40141
+Taiwan,2014,41931
+Taiwan,2015,42438
+Taiwan,2016,43262
+Taiwan,2017,44618
+Taiwan,2018,45818
+Taiwan,2019,47200
+Taiwan,2020,48779
+Taiwan,2021,51944
+Taiwan,2022,53143
+United States,1938,10526
+United States,1939,11171
+United States,1940,12005
+United States,1941,13553
+United States,1942,14870
+United States,1943,16050
+United States,1944,16999
+United States,1945,16478
+United States,1946,14822
+United States,1947,14312
+United States,1948,14734
+United States,1949,14197
+United States,1950,15240
+United States,1951,16125
+United States,1952,16444
+United States,1953,16917
+United States,1954,16512
+United States,1955,17370
+United States,1956,17397
+United States,1957,17406
+United States,1958,16946
+United States,1959,17900
+United States,1960,18057
+United States,1961,18175
+United States,1962,18976
+United States,1963,19514
+United States,1964,20360
+United States,1965,21390
+United States,1966,22529
+United States,1967,22842
+United States,1968,23691
+United States,1969,24195
+United States,1970,23958
+United States,1971,24394
+United States,1972,25414
+United States,1973,26602
+United States,1974,26286
+United States,1975,25956
+United States,1976,27058
+United States,1977,28001
+United States,1978,29286
+United States,1979,29949
+United States,1980,29611
+United States,1981,30056
+United States,1982,29210
+United States,1983,30158
+United States,1984,32076
+United States,1985,33023
+United States,1986,33850
+United States,1987,34730
+United States,1988,35863
+United States,1989,36756
+United States,1990,36982
+United States,1991,36464
+United States,1992,37240
+United States,1993,37762
+United States,1994,38807
+United States,1995,39391
+United States,1996,40413
+United States,1997,41723
+United States,1998,43073
+United States,1999,44576
+United States,2000,45886
+United States,2001,45878
+United States,2002,46266
+United States,2003,47158
+United States,2004,48493
+United States,2005,49655
+United States,2006,50490
+United States,2007,50902
+United States,2008,50276
+United States,2009,48453
+United States,2010,49267
+United States,2011,49675
+United States,2012,50436
+United States,2013,51011
+United States,2014,51797
+United States,2015,52808
+United States,2016,53301
+United States,2017,54152
+United States,2018,55455
+United States,2019,56469
+United States,2020,54379
+United States,2021,57523
+United States,2022,58487

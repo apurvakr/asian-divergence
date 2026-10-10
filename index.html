@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>India, China and East Asia: income per head since 1940</title>
+<meta name="description" content="How India, China, Japan and the Asian tigers diverged and converged in GDP per capita, 1940–2022. Data: Maddison Project Database 2023.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+:root {
+  --font-anthropic-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-anthropic-serif: "Source Serif 4", Georgia, serif;
+  --color-bg: #f7f5f0; --color-panel: #ffffff; --color-fg: #1f1e1c; --color-fg-muted: #6b6862;
+  --color-border-line: #e4e0d8; --color-ok: #2f855a; --color-bad: #c53030;
+  --cds-border: #e4e0d8; --cds-surface-popover: #ffffff; --cds-text-secondary: #6b6862;
+  --cds-shadow-popover: 0 6px 20px rgba(0,0,0,.12);
+  --cds-chart-grid: #ece9e2; --cds-chart-axis: #b9b4aa; --cds-chart-reference: #8a857b;
+  --cds-font-size-caption: 12px; --cds-font-size-body: 15px; --cds-font-size-heading: 16px; --cds-font-size-title: 30px;
+  --cds-font-weight-medium: 600;
+  --cds-gap-xs: 4px; --cds-gap-sm: 8px; --cds-gap-md: 16px; --cds-gap-lg: 24px;
+  --cds-pad-xs: 4px; --cds-pad-sm: 8px; --cds-pad-lg: 20px;
+  --cds-radius: 10px; --cds-dur-slow: 300ms;
+  --c1: #d1495b; --c2: #2b6cb0; --c3: #2f855a; --c4: #805ad5; --c5: #dd8a1e; --c6: #0f9fae; --c7: #8c6d3f; --c8: #555;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #171614; --color-panel: #201f1c; --color-fg: #ece9e2; --color-fg-muted: #a39f96;
+    --color-border-line: #34322e; --color-ok: #68d391; --color-bad: #fc8181;
+    --cds-border: #34322e; --cds-surface-popover: #2a2925; --cds-text-secondary: #a39f96;
+    --cds-shadow-popover: 0 6px 20px rgba(0,0,0,.5);
+    --cds-chart-grid: #2c2a27; --cds-chart-axis: #5a5650; --cds-chart-reference: #8f8a80;
+    --c1: #f07a8a; --c2: #63a4e8; --c3: #5fc58c; --c4: #a98bf0; --c5: #f0b04f; --c6: #3cc7d4; --c7: #c4a06a; --c8: #aaa;
+  }
+}
+html, body { margin: 0; background: var(--color-bg); color: var(--color-fg); }
+#dash-root { max-width: 1200px; margin: 0 auto; padding: 32px 16px 48px; box-sizing: border-box; }
+#dash-root .dash-skeleton:empty { background: var(--cds-chart-grid); border-radius: 6px; }
+.ea-credit { font-family: var(--font-anthropic-sans); font-size: 12px; color: var(--color-fg-muted); margin-top: 24px; }
+.ea-credit a { color: inherit; }
+
+
+#dash-root .ea { font-family: var(--font-anthropic-sans); color: var(--color-fg); display: flex; flex-direction: column; gap: var(--cds-gap-lg); }
+#dash-root .ea-head h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0 0 var(--cds-gap-xs); line-height: 1.2; }
+#dash-root .ea-take { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-body); max-width: 62rem; line-height: 1.5; }
+#dash-root .ea-take .ea-n { color: var(--color-fg); font-variant-numeric: tabular-nums; }
+#dash-root .ea-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: var(--cds-gap-md); }
+#dash-root .ea-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; position: relative; }
+#dash-root .ea-tile .ea-lab { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+#dash-root .ea-tile .ea-bigrow { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: calc(var(--cds-font-size-title) * 1.35); margin: var(--cds-gap-xs) 0; font-variant-numeric: tabular-nums; line-height: 1.1; }
+#dash-root .ea-tile .ea-sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+#dash-root .ea-card h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0 0 var(--cds-gap-xs); }
+#dash-root .ea-note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0 0 var(--cds-gap-md); line-height: 1.5; max-width: 60rem; }
+#dash-root .ea-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: var(--cds-gap-md); }
+#dash-root .ea-controls { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm) var(--cds-gap-lg); align-items: center; margin-bottom: var(--cds-gap-sm); }
+#dash-root .ea-seg { display: inline-flex; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); overflow: hidden; }
+#dash-root .ea-seg button { font: inherit; font-size: var(--cds-font-size-caption); background: transparent; color: var(--color-fg-muted); border: 0; padding: var(--cds-pad-xs) var(--cds-pad-sm); cursor: pointer; }
+#dash-root .ea-seg button + button { border-left: 1px solid var(--color-border-line); }
+#dash-root .ea-seg button[aria-pressed="true"] { background: var(--color-bg); color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+#dash-root .ea-seg[hidden] { display: none; }
+#dash-root .ea-chips { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); margin-bottom: var(--cds-gap-sm); }
+#dash-root .ea-chip { font: inherit; font-size: var(--cds-font-size-caption); display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--color-border-line); background: transparent; color: var(--color-fg); border-radius: 999px; padding: 2px 10px; cursor: pointer; }
+#dash-root .ea-chip[aria-pressed="false"] { opacity: .45; }
+#dash-root .ea-chip i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+#dash-root .ea-chip i.ea-dash { border-radius: 0; height: 2px; width: 12px; background: none !important; border-top: 2px dashed var(--cds-chart-reference); }
+#dash-root .ea-chart { position: relative; min-height: 420px; }
+#dash-root .ea-chart.ea-sm { min-height: 320px; }
+#dash-root .ea-chart svg { display: block; overflow: visible; }
+#dash-root .ea-chart text { font-family: var(--font-anthropic-sans); }
+#dash-root .ea-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; z-index: 5; min-width: 9rem; max-width: 16rem; display: none; }
+#dash-root .ea-tip .ea-t-h { color: var(--cds-text-secondary); margin-bottom: 2px; }
+#dash-root .ea-tip .ea-t-ev { color: var(--color-fg); font-style: italic; margin-bottom: 4px; }
+#dash-root .ea-tip .ea-t-r { display: flex; align-items: center; gap: 6px; }
+#dash-root .ea-tip .ea-t-r span:nth-child(2) { flex: 1; }
+#dash-root .ea-tip i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+#dash-root .ea-fail { display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); min-height: inherit; }
+#dash-root .ea-fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
+#dash-root .ea-tablewrap { overflow-x: auto; }
+#dash-root table.ea-table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+#dash-root .ea-table th { text-align: right; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); padding: 6px 8px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+#dash-root .ea-table th:first-child, #dash-root .ea-table td:first-child { text-align: left; }
+#dash-root .ea-table td { text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+#dash-root .ea-table td:first-child { font-weight: var(--cds-font-weight-medium); }
+#dash-root .ea-foot { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.6; }
+#dash-root .ea-foot p { margin: 0 0 var(--cds-gap-xs); }
+#dash-root [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+#dash-root [data-dash-source-state=empty] { color: transparent; }
+</style>
+</head>
+<body>
+<script>
+window.EA_DATA = { mpd: [{"country":"China","year":1938,"gdppc":1003},{"country":"China","year":1950,"gdppc":799},{"country":"China","year":1951,"gdppc":950},{"country":"China","year":1952,"gdppc":1047},{"country":"China","year":1953,"gdppc":1157},{"country":"China","year":1954,"gdppc":1049},{"country":"China","year":1955,"gdppc":1119},{"country":"China","year":1956,"gdppc":1189},{"country":"China","year":1957,"gdppc":1195},{"country":"China","year":1958,"gdppc":1173},{"country":"China","year":1959,"gdppc":1117},{"country":"China","year":1960,"gdppc":1057},{"country":"China","year":1961,"gdppc":874},{"country":"China","year":1962,"gdppc":926},{"country":"China","year":1963,"gdppc":1034},{"country":"China","year":1964,"gdppc":1152},{"country":"China","year":1965,"gdppc":1253},{"country":"China","year":1966,"gdppc":1261},{"country":"China","year":1967,"gdppc":1237},{"country":"China","year":1968,"gdppc":1178},{"country":"China","year":1969,"gdppc":1264},{"country":"China","year":1970,"gdppc":1398},{"country":"China","year":1971,"gdppc":1446},{"country":"China","year":1972,"gdppc":1431},{"country":"China","year":1973,"gdppc":1513},{"country":"China","year":1974,"gdppc":1519},{"country":"China","year":1975,"gdppc":1594},{"country":"China","year":1976,"gdppc":1519},{"country":"China","year":1977,"gdppc":1583},{"country":"China","year":1978,"gdppc":1744},{"country":"China","year":1979,"gdppc":1859},{"country":"China","year":1980,"gdppc":1930},{"country":"China","year":1981,"gdppc":1962},{"country":"China","year":1982,"gdppc":2128},{"country":"China","year":1983,"gdppc":2227},{"country":"China","year":1984,"gdppc":2444},{"country":"China","year":1985,"gdppc":2619},{"country":"China","year":1986,"gdppc":2748},{"country":"China","year":1987,"gdppc":2931},{"country":"China","year":1988,"gdppc":3045},{"country":"China","year":1989,"gdppc":3022},{"country":"China","year":1990,"gdppc":2982},{"country":"China","year":1991,"gdppc":3051},{"country":"China","year":1992,"gdppc":3228},{"country":"China","year":1993,"gdppc":3506},{"country":"China","year":1994,"gdppc":3730},{"country":"China","year":1995,"gdppc":4000},{"country":"China","year":1996,"gdppc":4220},{"country":"China","year":1997,"gdppc":4311},{"country":"China","year":1998,"gdppc":4310},{"country":"China","year":1999,"gdppc":4467},{"country":"China","year":2000,"gdppc":4730},{"country":"China","year":2001,"gdppc":4995},{"country":"China","year":2002,"gdppc":5343},{"country":"China","year":2003,"gdppc":5649},{"country":"China","year":2004,"gdppc":6068},{"country":"China","year":2005,"gdppc":6627},{"country":"China","year":2006,"gdppc":7271},{"country":"China","year":2007,"gdppc":7896},{"country":"China","year":2008,"gdppc":8190},{"country":"China","year":2009,"gdppc":8734},{"country":"China","year":2010,"gdppc":9658},{"country":"China","year":2011,"gdppc":10221},{"country":"China","year":2012,"gdppc":10947},{"country":"China","year":2013,"gdppc":11731},{"country":"China","year":2014,"gdppc":12515},{"country":"China","year":2015,"gdppc":13325},{"country":"China","year":2016,"gdppc":14139},{"country":"China","year":2017,"gdppc":15030},{"country":"China","year":2018,"gdppc":15977},{"country":"China","year":2019,"gdppc":16880},{"country":"China","year":2020,"gdppc":17226},{"country":"China","year":2021,"gdppc":18667},{"country":"China","year":2022,"gdppc":19238},{"country":"Hong Kong","year":1950,"gdppc":4082},{"country":"Hong Kong","year":1951,"gdppc":3688},{"country":"Hong Kong","year":1952,"gdppc":3846},{"country":"Hong Kong","year":1953,"gdppc":3982},{"country":"Hong Kong","year":1954,"gdppc":4124},{"country":"Hong Kong","year":1955,"gdppc":4280},{"country":"Hong Kong","year":1956,"gdppc":4450},{"country":"Hong Kong","year":1957,"gdppc":4626},{"country":"Hong Kong","year":1958,"gdppc":4799},{"country":"Hong Kong","year":1959,"gdppc":4957},{"country":"Hong Kong","year":1960,"gdppc":5088},{"country":"Hong Kong","year":1961,"gdppc":5169},{"country":"Hong Kong","year":1962,"gdppc":5780},{"country":"Hong Kong","year":1963,"gdppc":6381},{"country":"Hong Kong","year":1964,"gdppc":6664},{"country":"Hong Kong","year":1965,"gdppc":7414},{"country":"Hong Kong","year":1966,"gdppc":7412},{"country":"Hong Kong","year":1967,"gdppc":7474},{"country":"Hong Kong","year":1968,"gdppc":7696},{"country":"Hong Kong","year":1969,"gdppc":8534},{"country":"Hong Kong","year":1970,"gdppc":9250},{"country":"Hong Kong","year":1971,"gdppc":9787},{"country":"Hong Kong","year":1972,"gdppc":10632},{"country":"Hong Kong","year":1973,"gdppc":11717},{"country":"Hong Kong","year":1974,"gdppc":11719},{"country":"Hong Kong","year":1975,"gdppc":11456},{"country":"Hong Kong","year":1976,"gdppc":12929},{"country":"Hong Kong","year":1977,"gdppc":13986},{"country":"Hong Kong","year":1978,"gdppc":14689},{"country":"Hong Kong","year":1979,"gdppc":15903},{"country":"Hong Kong","year":1980,"gdppc":17086},{"country":"Hong Kong","year":1981,"gdppc":18301},{"country":"Hong Kong","year":1982,"gdppc":18527},{"country":"Hong Kong","year":1983,"gdppc":19349},{"country":"Hong Kong","year":1984,"gdppc":21042},{"country":"Hong Kong","year":1985,"gdppc":20883},{"country":"Hong Kong","year":1986,"gdppc":22823},{"country":"Hong Kong","year":1987,"gdppc":25414},{"country":"Hong Kong","year":1988,"gdppc":27063},{"country":"Hong Kong","year":1989,"gdppc":27377},{"country":"Hong Kong","year":1990,"gdppc":27960},{"country":"Hong Kong","year":1991,"gdppc":29009},{"country":"Hong Kong","year":1992,"gdppc":30203},{"country":"Hong Kong","year":1993,"gdppc":31242},{"country":"Hong Kong","year":1994,"gdppc":32219},{"country":"Hong Kong","year":1995,"gdppc":31942},{"country":"Hong Kong","year":1996,"gdppc":32262},{"country":"Hong Kong","year":1997,"gdppc":33386},{"country":"Hong Kong","year":1998,"gdppc":30866},{"country":"Hong Kong","year":1999,"gdppc":31134},{"country":"Hong Kong","year":2000,"gdppc":32894},{"country":"Hong Kong","year":2001,"gdppc":32734},{"country":"Hong Kong","year":2002,"gdppc":33038},{"country":"Hong Kong","year":2003,"gdppc":33594},{"country":"Hong Kong","year":2004,"gdppc":36053},{"country":"Hong Kong","year":2005,"gdppc":38192},{"country":"Hong Kong","year":2006,"gdppc":40173},{"country":"Hong Kong","year":2007,"gdppc":42231},{"country":"Hong Kong","year":2008,"gdppc":42635},{"country":"Hong Kong","year":2009,"gdppc":41076},{"country":"Hong Kong","year":2010,"gdppc":43171},{"country":"Hong Kong","year":2011,"gdppc":44532},{"country":"Hong Kong","year":2012,"gdppc":44795},{"country":"Hong Kong","year":2013,"gdppc":45998},{"country":"Hong Kong","year":2014,"gdppc":46942},{"country":"Hong Kong","year":2015,"gdppc":47654},{"country":"Hong Kong","year":2016,"gdppc":48385},{"country":"Hong Kong","year":2017,"gdppc":49841},{"country":"Hong Kong","year":2018,"gdppc":50848},{"country":"Hong Kong","year":2019,"gdppc":49631},{"country":"Hong Kong","year":2020,"gdppc":46550},{"country":"Hong Kong","year":2021,"gdppc":50006},{"country":"Hong Kong","year":2022,"gdppc":48289},{"country":"India","year":1938,"gdppc":1065},{"country":"India","year":1939,"gdppc":1074},{"country":"India","year":1940,"gdppc":1093},{"country":"India","year":1941,"gdppc":1101},{"country":"India","year":1942,"gdppc":1082},{"country":"India","year":1943,"gdppc":1113},{"country":"India","year":1944,"gdppc":1089},{"country":"India","year":1945,"gdppc":1058},{"country":"India","year":1946,"gdppc":991},{"country":"India","year":1947,"gdppc":985},{"country":"India","year":1948,"gdppc":983},{"country":"India","year":1949,"gdppc":995},{"country":"India","year":1950,"gdppc":987},{"country":"India","year":1951,"gdppc":993},{"country":"India","year":1952,"gdppc":1003},{"country":"India","year":1953,"gdppc":1047},{"country":"India","year":1954,"gdppc":1071},{"country":"India","year":1955,"gdppc":1078},{"country":"India","year":1956,"gdppc":1117},{"country":"India","year":1957,"gdppc":1084},{"country":"India","year":1958,"gdppc":1141},{"country":"India","year":1959,"gdppc":1143},{"country":"India","year":1960,"gdppc":1200},{"country":"India","year":1961,"gdppc":1208},{"country":"India","year":1962,"gdppc":1208},{"country":"India","year":1963,"gdppc":1242},{"country":"India","year":1964,"gdppc":1309},{"country":"India","year":1965,"gdppc":1229},{"country":"India","year":1966,"gdppc":1215},{"country":"India","year":1967,"gdppc":1286},{"country":"India","year":1968,"gdppc":1290},{"country":"India","year":1969,"gdppc":1347},{"country":"India","year":1970,"gdppc":1384},{"country":"India","year":1971,"gdppc":1364},{"country":"India","year":1972,"gdppc":1329},{"country":"India","year":1973,"gdppc":1360},{"country":"India","year":1974,"gdppc":1344},{"country":"India","year":1975,"gdppc":1430},{"country":"India","year":1976,"gdppc":1417},{"country":"India","year":1977,"gdppc":1494},{"country":"India","year":1978,"gdppc":1540},{"country":"India","year":1979,"gdppc":1427},{"country":"India","year":1980,"gdppc":1495},{"country":"India","year":1981,"gdppc":1557},{"country":"India","year":1982,"gdppc":1570},{"country":"India","year":1983,"gdppc":1663},{"country":"India","year":1984,"gdppc":1690},{"country":"India","year":1985,"gdppc":1720},{"country":"India","year":1986,"gdppc":1755},{"country":"India","year":1987,"gdppc":1793},{"country":"India","year":1988,"gdppc":1938},{"country":"India","year":1989,"gdppc":2024},{"country":"India","year":1990,"gdppc":2087},{"country":"India","year":1991,"gdppc":2062},{"country":"India","year":1992,"gdppc":2115},{"country":"India","year":1993,"gdppc":2176},{"country":"India","year":1994,"gdppc":2255},{"country":"India","year":1995,"gdppc":2356},{"country":"India","year":1996,"gdppc":2476},{"country":"India","year":1997,"gdppc":2514},{"country":"India","year":1998,"gdppc":2612},{"country":"India","year":1999,"gdppc":2708},{"country":"India","year":2000,"gdppc":2753},{"country":"India","year":2001,"gdppc":2838},{"country":"India","year":2002,"gdppc":2871},{"country":"India","year":2003,"gdppc":3036},{"country":"India","year":2004,"gdppc":3213},{"country":"India","year":2005,"gdppc":3397},{"country":"India","year":2006,"gdppc":3629},{"country":"India","year":2007,"gdppc":3871},{"country":"India","year":2008,"gdppc":4031},{"country":"India","year":2009,"gdppc":4271},{"country":"India","year":2010,"gdppc":4526},{"country":"India","year":2011,"gdppc":4768},{"country":"India","year":2012,"gdppc":4982},{"country":"India","year":2013,"gdppc":5224},{"country":"India","year":2014,"gdppc":5524},{"country":"India","year":2015,"gdppc":5870},{"country":"India","year":2016,"gdppc":6326},{"country":"India","year":2017,"gdppc":6639},{"country":"India","year":2018,"gdppc":7046},{"country":"India","year":2019,"gdppc":7294},{"country":"India","year":2020,"gdppc":6731},{"country":"India","year":2021,"gdppc":7315},{"country":"India","year":2022,"gdppc":7766},{"country":"Japan","year":1938,"gdppc":4257},{"country":"Japan","year":1939,"gdppc":4804},{"country":"Japan","year":1940,"gdppc":4882},{"country":"Japan","year":1941,"gdppc":4986},{"country":"Japan","year":1942,"gdppc":4939},{"country":"Japan","year":1943,"gdppc":4826},{"country":"Japan","year":1944,"gdppc":4816},{"country":"Japan","year":1945,"gdppc":3678},{"country":"Japan","year":1946,"gdppc":2771},{"country":"Japan","year":1947,"gdppc":2711},{"country":"Japan","year":1948,"gdppc":2857},{"country":"Japan","year":1949,"gdppc":2867},{"country":"Japan","year":1950,"gdppc":3062},{"country":"Japan","year":1951,"gdppc":3389},{"country":"Japan","year":1952,"gdppc":3724},{"country":"Japan","year":1953,"gdppc":3944},{"country":"Japan","year":1954,"gdppc":4116},{"country":"Japan","year":1955,"gdppc":4417},{"country":"Japan","year":1956,"gdppc":4699},{"country":"Japan","year":1957,"gdppc":4999},{"country":"Japan","year":1958,"gdppc":5243},{"country":"Japan","year":1959,"gdppc":5665},{"country":"Japan","year":1960,"gdppc":6354},{"country":"Japan","year":1961,"gdppc":7055},{"country":"Japan","year":1962,"gdppc":7614},{"country":"Japan","year":1963,"gdppc":8176},{"country":"Japan","year":1964,"gdppc":9035},{"country":"Japan","year":1965,"gdppc":9459},{"country":"Japan","year":1966,"gdppc":10370},{"country":"Japan","year":1967,"gdppc":11400},{"country":"Japan","year":1968,"gdppc":12725},{"country":"Japan","year":1969,"gdppc":14145},{"country":"Japan","year":1970,"gdppc":15484},{"country":"Japan","year":1971,"gdppc":16004},{"country":"Japan","year":1972,"gdppc":17110},{"country":"Japan","year":1973,"gdppc":18226},{"country":"Japan","year":1974,"gdppc":17765},{"country":"Japan","year":1975,"gdppc":18082},{"country":"Japan","year":1976,"gdppc":18600},{"country":"Japan","year":1977,"gdppc":19230},{"country":"Japan","year":1978,"gdppc":20060},{"country":"Japan","year":1979,"gdppc":20982},{"country":"Japan","year":1980,"gdppc":21404},{"country":"Japan","year":1981,"gdppc":21924},{"country":"Japan","year":1982,"gdppc":22440},{"country":"Japan","year":1983,"gdppc":22805},{"country":"Japan","year":1984,"gdppc":23548},{"country":"Japan","year":1985,"gdppc":24437},{"country":"Japan","year":1986,"gdppc":24992},{"country":"Japan","year":1987,"gdppc":25904},{"country":"Japan","year":1988,"gdppc":27393},{"country":"Japan","year":1989,"gdppc":28601},{"country":"Japan","year":1990,"gdppc":29949},{"country":"Japan","year":1991,"gdppc":30837},{"country":"Japan","year":1992,"gdppc":30978},{"country":"Japan","year":1993,"gdppc":30921},{"country":"Japan","year":1994,"gdppc":31135},{"country":"Japan","year":1995,"gdppc":31887},{"country":"Japan","year":1996,"gdppc":32784},{"country":"Japan","year":1997,"gdppc":33038},{"country":"Japan","year":1998,"gdppc":32558},{"country":"Japan","year":1999,"gdppc":32395},{"country":"Japan","year":2000,"gdppc":33211},{"country":"Japan","year":2001,"gdppc":33246},{"country":"Japan","year":2002,"gdppc":33195},{"country":"Japan","year":2003,"gdppc":33620},{"country":"Japan","year":2004,"gdppc":34314},{"country":"Japan","year":2005,"gdppc":34858},{"country":"Japan","year":2006,"gdppc":35333},{"country":"Japan","year":2007,"gdppc":35893},{"country":"Japan","year":2008,"gdppc":35496},{"country":"Japan","year":2009,"gdppc":33590},{"country":"Japan","year":2010,"gdppc":35011},{"country":"Japan","year":2011,"gdppc":34979},{"country":"Japan","year":2012,"gdppc":35537},{"country":"Japan","year":2013,"gdppc":36312},{"country":"Japan","year":2014,"gdppc":36440},{"country":"Japan","year":2015,"gdppc":37053},{"country":"Japan","year":2016,"gdppc":37385},{"country":"Japan","year":2017,"gdppc":38079},{"country":"Japan","year":2018,"gdppc":38404},{"country":"Japan","year":2019,"gdppc":38333},{"country":"Japan","year":2020,"gdppc":36827},{"country":"Japan","year":2021,"gdppc":37678},{"country":"Japan","year":2022,"gdppc":38269},{"country":"Singapore","year":1938,"gdppc":3363},{"country":"Singapore","year":1939,"gdppc":3912},{"country":"Singapore","year":1950,"gdppc":3572},{"country":"Singapore","year":1951,"gdppc":3368},{"country":"Singapore","year":1952,"gdppc":2342},{"country":"Singapore","year":1953,"gdppc":2794},{"country":"Singapore","year":1954,"gdppc":3202},{"country":"Singapore","year":1955,"gdppc":2946},{"country":"Singapore","year":1956,"gdppc":3241},{"country":"Singapore","year":1957,"gdppc":2874},{"country":"Singapore","year":1958,"gdppc":2880},{"country":"Singapore","year":1959,"gdppc":3239},{"country":"Singapore","year":1960,"gdppc":3464},{"country":"Singapore","year":1961,"gdppc":3623},{"country":"Singapore","year":1962,"gdppc":3775},{"country":"Singapore","year":1963,"gdppc":4049},{"country":"Singapore","year":1964,"gdppc":3800},{"country":"Singapore","year":1965,"gdppc":3991},{"country":"Singapore","year":1966,"gdppc":4317},{"country":"Singapore","year":1967,"gdppc":4741},{"country":"Singapore","year":1968,"gdppc":5294},{"country":"Singapore","year":1969,"gdppc":5931},{"country":"Singapore","year":1970,"gdppc":6650},{"country":"Singapore","year":1971,"gdppc":7318},{"country":"Singapore","year":1972,"gdppc":8155},{"country":"Singapore","year":1973,"gdppc":8894},{"country":"Singapore","year":1974,"gdppc":9314},{"country":"Singapore","year":1975,"gdppc":9602},{"country":"Singapore","year":1976,"gdppc":10178},{"country":"Singapore","year":1977,"gdppc":10790},{"country":"Singapore","year":1978,"gdppc":11588},{"country":"Singapore","year":1979,"gdppc":12521},{"country":"Singapore","year":1980,"gdppc":13601},{"country":"Singapore","year":1981,"gdppc":14335},{"country":"Singapore","year":1982,"gdppc":14687},{"country":"Singapore","year":1983,"gdppc":15720},{"country":"Singapore","year":1984,"gdppc":16767},{"country":"Singapore","year":1985,"gdppc":16611},{"country":"Singapore","year":1986,"gdppc":16831},{"country":"Singapore","year":1987,"gdppc":18345},{"country":"Singapore","year":1988,"gdppc":19853},{"country":"Singapore","year":1989,"gdppc":21221},{"country":"Singapore","year":1990,"gdppc":22666},{"country":"Singapore","year":1991,"gdppc":23637},{"country":"Singapore","year":1992,"gdppc":24776},{"country":"Singapore","year":1993,"gdppc":27074},{"country":"Singapore","year":1994,"gdppc":29455},{"country":"Singapore","year":1995,"gdppc":30957},{"country":"Singapore","year":1996,"gdppc":32724},{"country":"Singapore","year":1997,"gdppc":34868},{"country":"Singapore","year":1998,"gdppc":33590},{"country":"Singapore","year":1999,"gdppc":35156},{"country":"Singapore","year":2000,"gdppc":37773},{"country":"Singapore","year":2001,"gdppc":36865},{"country":"Singapore","year":2002,"gdppc":37830},{"country":"Singapore","year":2003,"gdppc":38951},{"country":"Singapore","year":2004,"gdppc":42111},{"country":"Singapore","year":2005,"gdppc":44699},{"country":"Singapore","year":2006,"gdppc":48074},{"country":"Singapore","year":2007,"gdppc":51844},{"country":"Singapore","year":2008,"gdppc":52180},{"country":"Singapore","year":2009,"gdppc":51344},{"country":"Singapore","year":2010,"gdppc":58613},{"country":"Singapore","year":2011,"gdppc":61672},{"country":"Singapore","year":2012,"gdppc":62856},{"country":"Singapore","year":2013,"gdppc":64822},{"country":"Singapore","year":2014,"gdppc":66499},{"country":"Singapore","year":2015,"gdppc":67674},{"country":"Singapore","year":2016,"gdppc":69211},{"country":"Singapore","year":2017,"gdppc":72292},{"country":"Singapore","year":2018,"gdppc":74518},{"country":"Singapore","year":2019,"gdppc":74650},{"country":"Singapore","year":2020,"gdppc":71965},{"country":"Singapore","year":2021,"gdppc":77945},{"country":"Singapore","year":2022,"gdppc":80320},{"country":"South Korea","year":1938,"gdppc":1935},{"country":"South Korea","year":1939,"gdppc":1611},{"country":"South Korea","year":1940,"gdppc":1975},{"country":"South Korea","year":1941,"gdppc":2107},{"country":"South Korea","year":1942,"gdppc":1646},{"country":"South Korea","year":1943,"gdppc":1686},{"country":"South Korea","year":1946,"gdppc":916},{"country":"South Korea","year":1947,"gdppc":937},{"country":"South Korea","year":1948,"gdppc":1099},{"country":"South Korea","year":1949,"gdppc":1189},{"country":"South Korea","year":1950,"gdppc":998},{"country":"South Korea","year":1951,"gdppc":991},{"country":"South Korea","year":1952,"gdppc":1038},{"country":"South Korea","year":1953,"gdppc":1317},{"country":"South Korea","year":1954,"gdppc":1373},{"country":"South Korea","year":1955,"gdppc":1411},{"country":"South Korea","year":1956,"gdppc":1382},{"country":"South Korea","year":1957,"gdppc":1467},{"country":"South Korea","year":1958,"gdppc":1518},{"country":"South Korea","year":1959,"gdppc":1556},{"country":"South Korea","year":1960,"gdppc":1548},{"country":"South Korea","year":1961,"gdppc":1606},{"country":"South Korea","year":1962,"gdppc":1620},{"country":"South Korea","year":1963,"gdppc":1721},{"country":"South Korea","year":1964,"gdppc":1835},{"country":"South Korea","year":1965,"gdppc":1917},{"country":"South Korea","year":1966,"gdppc":2094},{"country":"South Korea","year":1967,"gdppc":2232},{"country":"South Korea","year":1968,"gdppc":2468},{"country":"South Korea","year":1969,"gdppc":2764},{"country":"South Korea","year":1970,"gdppc":2975},{"country":"South Korea","year":1971,"gdppc":3222},{"country":"South Korea","year":1972,"gdppc":3388},{"country":"South Korea","year":1973,"gdppc":3822},{"country":"South Korea","year":1974,"gdppc":4113},{"country":"South Korea","year":1975,"gdppc":4362},{"country":"South Korea","year":1976,"gdppc":4856},{"country":"South Korea","year":1977,"gdppc":5368},{"country":"South Korea","year":1978,"gdppc":5856},{"country":"South Korea","year":1979,"gdppc":6266},{"country":"South Korea","year":1980,"gdppc":6064},{"country":"South Korea","year":1981,"gdppc":6399},{"country":"South Korea","year":1982,"gdppc":6821},{"country":"South Korea","year":1983,"gdppc":7612},{"country":"South Korea","year":1984,"gdppc":8304},{"country":"South Korea","year":1985,"gdppc":8859},{"country":"South Korea","year":1986,"gdppc":9756},{"country":"South Korea","year":1987,"gdppc":10865},{"country":"South Korea","year":1988,"gdppc":12040},{"country":"South Korea","year":1989,"gdppc":12759},{"country":"South Korea","year":1990,"gdppc":13874},{"country":"South Korea","year":1991,"gdppc":15056},{"country":"South Korea","year":1992,"gdppc":15712},{"country":"South Korea","year":1993,"gdppc":16503},{"country":"South Korea","year":1994,"gdppc":17720},{"country":"South Korea","year":1995,"gdppc":19089},{"country":"South Korea","year":1996,"gdppc":20205},{"country":"South Korea","year":1997,"gdppc":21056},{"country":"South Korea","year":1998,"gdppc":19625},{"country":"South Korea","year":1999,"gdppc":21541},{"country":"South Korea","year":2000,"gdppc":23108},{"country":"South Korea","year":2001,"gdppc":23804},{"country":"South Korea","year":2002,"gdppc":25251},{"country":"South Korea","year":2003,"gdppc":25679},{"country":"South Korea","year":2004,"gdppc":26647},{"country":"South Korea","year":2005,"gdppc":27443},{"country":"South Korea","year":2006,"gdppc":28516},{"country":"South Korea","year":2007,"gdppc":29717},{"country":"South Korea","year":2008,"gdppc":30118},{"country":"South Korea","year":2009,"gdppc":29968},{"country":"South Korea","year":2010,"gdppc":31538},{"country":"South Korea","year":2011,"gdppc":32225},{"country":"South Korea","year":2012,"gdppc":32826},{"country":"South Korea","year":2013,"gdppc":33712},{"country":"South Korea","year":2014,"gdppc":34573},{"country":"South Korea","year":2015,"gdppc":35358},{"country":"South Korea","year":2016,"gdppc":36255},{"country":"South Korea","year":2017,"gdppc":37296},{"country":"South Korea","year":2018,"gdppc":38214},{"country":"South Korea","year":2019,"gdppc":38936},{"country":"South Korea","year":2020,"gdppc":38607},{"country":"South Korea","year":2021,"gdppc":40278},{"country":"South Korea","year":2022,"gdppc":41321},{"country":"Taiwan","year":1938,"gdppc":2295},{"country":"Taiwan","year":1939,"gdppc":2200},{"country":"Taiwan","year":1940,"gdppc":1992},{"country":"Taiwan","year":1950,"gdppc":1460},{"country":"Taiwan","year":1951,"gdppc":1513},{"country":"Taiwan","year":1952,"gdppc":1639},{"country":"Taiwan","year":1953,"gdppc":1728},{"country":"Taiwan","year":1954,"gdppc":1825},{"country":"Taiwan","year":1955,"gdppc":1895},{"country":"Taiwan","year":1956,"gdppc":1926},{"country":"Taiwan","year":1957,"gdppc":1997},{"country":"Taiwan","year":1958,"gdppc":2056},{"country":"Taiwan","year":1959,"gdppc":2118},{"country":"Taiwan","year":1960,"gdppc":2157},{"country":"Taiwan","year":1961,"gdppc":2228},{"country":"Taiwan","year":1962,"gdppc":2326},{"country":"Taiwan","year":1963,"gdppc":2463},{"country":"Taiwan","year":1964,"gdppc":2676},{"country":"Taiwan","year":1965,"gdppc":2885},{"country":"Taiwan","year":1966,"gdppc":3054},{"country":"Taiwan","year":1967,"gdppc":3300},{"country":"Taiwan","year":1968,"gdppc":3484},{"country":"Taiwan","year":1969,"gdppc":3720},{"country":"Taiwan","year":1970,"gdppc":4044},{"country":"Taiwan","year":1971,"gdppc":4470},{"country":"Taiwan","year":1972,"gdppc":4962},{"country":"Taiwan","year":1973,"gdppc":5496},{"country":"Taiwan","year":1974,"gdppc":5455},{"country":"Taiwan","year":1975,"gdppc":5614},{"country":"Taiwan","year":1976,"gdppc":6245},{"country":"Taiwan","year":1977,"gdppc":6752},{"country":"Taiwan","year":1978,"gdppc":7519},{"country":"Taiwan","year":1979,"gdppc":7967},{"country":"Taiwan","year":1980,"gdppc":8384},{"country":"Taiwan","year":1981,"gdppc":8749},{"country":"Taiwan","year":1982,"gdppc":8910},{"country":"Taiwan","year":1983,"gdppc":9530},{"country":"Taiwan","year":1984,"gdppc":10394},{"country":"Taiwan","year":1985,"gdppc":10779},{"country":"Taiwan","year":1986,"gdppc":11918},{"country":"Taiwan","year":1987,"gdppc":13705},{"country":"Taiwan","year":1988,"gdppc":14183},{"country":"Taiwan","year":1989,"gdppc":15203},{"country":"Taiwan","year":1990,"gdppc":15841},{"country":"Taiwan","year":1991,"gdppc":16935},{"country":"Taiwan","year":1992,"gdppc":18101},{"country":"Taiwan","year":1993,"gdppc":19088},{"country":"Taiwan","year":1994,"gdppc":20269},{"country":"Taiwan","year":1995,"gdppc":21330},{"country":"Taiwan","year":1996,"gdppc":22390},{"country":"Taiwan","year":1997,"gdppc":23438},{"country":"Taiwan","year":1998,"gdppc":24131},{"country":"Taiwan","year":1999,"gdppc":25472},{"country":"Taiwan","year":2000,"gdppc":26787},{"country":"Taiwan","year":2001,"gdppc":26204},{"country":"Taiwan","year":2002,"gdppc":27426},{"country":"Taiwan","year":2003,"gdppc":28349},{"country":"Taiwan","year":2004,"gdppc":29975},{"country":"Taiwan","year":2005,"gdppc":31374},{"country":"Taiwan","year":2006,"gdppc":32867},{"country":"Taiwan","year":2007,"gdppc":34761},{"country":"Taiwan","year":2008,"gdppc":34762},{"country":"Taiwan","year":2009,"gdppc":33974},{"country":"Taiwan","year":2010,"gdppc":37385},{"country":"Taiwan","year":2011,"gdppc":38565},{"country":"Taiwan","year":2012,"gdppc":39291},{"country":"Taiwan","year":2013,"gdppc":40141},{"country":"Taiwan","year":2014,"gdppc":41931},{"country":"Taiwan","year":2015,"gdppc":42438},{"country":"Taiwan","year":2016,"gdppc":43262},{"country":"Taiwan","year":2017,"gdppc":44618},{"country":"Taiwan","year":2018,"gdppc":45818},{"country":"Taiwan","year":2019,"gdppc":47200},{"country":"Taiwan","year":2020,"gdppc":48779},{"country":"Taiwan","year":2021,"gdppc":51944},{"country":"Taiwan","year":2022,"gdppc":53143},{"country":"United States","year":1938,"gdppc":10526},{"country":"United States","year":1939,"gdppc":11171},{"country":"United States","year":1940,"gdppc":12005},{"country":"United States","year":1941,"gdppc":13553},{"country":"United States","year":1942,"gdppc":14870},{"country":"United States","year":1943,"gdppc":16050},{"country":"United States","year":1944,"gdppc":16999},{"country":"United States","year":1945,"gdppc":16478},{"country":"United States","year":1946,"gdppc":14822},{"country":"United States","year":1947,"gdppc":14312},{"country":"United States","year":1948,"gdppc":14734},{"country":"United States","year":1949,"gdppc":14197},{"country":"United States","year":1950,"gdppc":15240},{"country":"United States","year":1951,"gdppc":16125},{"country":"United States","year":1952,"gdppc":16444},{"country":"United States","year":1953,"gdppc":16917},{"country":"United States","year":1954,"gdppc":16512},{"country":"United States","year":1955,"gdppc":17370},{"country":"United States","year":1956,"gdppc":17397},{"country":"United States","year":1957,"gdppc":17406},{"country":"United States","year":1958,"gdppc":16946},{"country":"United States","year":1959,"gdppc":17900},{"country":"United States","year":1960,"gdppc":18057},{"country":"United States","year":1961,"gdppc":18175},{"country":"United States","year":1962,"gdppc":18976},{"country":"United States","year":1963,"gdppc":19514},{"country":"United States","year":1964,"gdppc":20360},{"country":"United States","year":1965,"gdppc":21390},{"country":"United States","year":1966,"gdppc":22529},{"country":"United States","year":1967,"gdppc":22842},{"country":"United States","year":1968,"gdppc":23691},{"country":"United States","year":1969,"gdppc":24195},{"country":"United States","year":1970,"gdppc":23958},{"country":"United States","year":1971,"gdppc":24394},{"country":"United States","year":1972,"gdppc":25414},{"country":"United States","year":1973,"gdppc":26602},{"country":"United States","year":1974,"gdppc":26286},{"country":"United States","year":1975,"gdppc":25956},{"country":"United States","year":1976,"gdppc":27058},{"country":"United States","year":1977,"gdppc":28001},{"country":"United States","year":1978,"gdppc":29286},{"country":"United States","year":1979,"gdppc":29949},{"country":"United States","year":1980,"gdppc":29611},{"country":"United States","year":1981,"gdppc":30056},{"country":"United States","year":1982,"gdppc":29210},{"country":"United States","year":1983,"gdppc":30158},{"country":"United States","year":1984,"gdppc":32076},{"country":"United States","year":1985,"gdppc":33023},{"country":"United States","year":1986,"gdppc":33850},{"country":"United States","year":1987,"gdppc":34730},{"country":"United States","year":1988,"gdppc":35863},{"country":"United States","year":1989,"gdppc":36756},{"country":"United States","year":1990,"gdppc":36982},{"country":"United States","year":1991,"gdppc":36464},{"country":"United States","year":1992,"gdppc":37240},{"country":"United States","year":1993,"gdppc":37762},{"country":"United States","year":1994,"gdppc":38807},{"country":"United States","year":1995,"gdppc":39391},{"country":"United States","year":1996,"gdppc":40413},{"country":"United States","year":1997,"gdppc":41723},{"country":"United States","year":1998,"gdppc":43073},{"country":"United States","year":1999,"gdppc":44576},{"country":"United States","year":2000,"gdppc":45886},{"country":"United States","year":2001,"gdppc":45878},{"country":"United States","year":2002,"gdppc":46266},{"country":"United States","year":2003,"gdppc":47158},{"country":"United States","year":2004,"gdppc":48493},{"country":"United States","year":2005,"gdppc":49655},{"country":"United States","year":2006,"gdppc":50490},{"country":"United States","year":2007,"gdppc":50902},{"country":"United States","year":2008,"gdppc":50276},{"country":"United States","year":2009,"gdppc":48453},{"country":"United States","year":2010,"gdppc":49267},{"country":"United States","year":2011,"gdppc":49675},{"country":"United States","year":2012,"gdppc":50436},{"country":"United States","year":2013,"gdppc":51011},{"country":"United States","year":2014,"gdppc":51797},{"country":"United States","year":2015,"gdppc":52808},{"country":"United States","year":2016,"gdppc":53301},{"country":"United States","year":2017,"gdppc":54152},{"country":"United States","year":2018,"gdppc":55455},{"country":"United States","year":2019,"gdppc":56469},{"country":"United States","year":2020,"gdppc":54379},{"country":"United States","year":2021,"gdppc":57523},{"country":"United States","year":2022,"gdppc":58487}], events: [{"year":1945,"country":"Japan","label":"Japan surrenders; Korea and Taiwan leave Japanese rule"},{"year":1947,"country":"India","label":"Independence and Partition"},{"year":1949,"country":"China","label":"People's Republic founded"},{"year":1950,"country":"South Korea","label":"Korean War begins (to 1953)"},{"year":1958,"country":"China","label":"Great Leap Forward; famine to 1961"},{"year":1961,"country":"South Korea","label":"Park Chung-hee seizes power; export-led industrial policy"},{"year":1965,"country":"Singapore","label":"Singapore independent"},{"year":1966,"country":"China","label":"Cultural Revolution begins"},{"year":1978,"country":"China","label":"Deng's reform and opening"},{"year":1991,"country":"India","label":"Balance-of-payments crisis; liberalisation"},{"year":1991,"country":"Japan","label":"Asset bubble bursts; the lost decades begin"},{"year":1997,"country":"South Korea","label":"Asian financial crisis"},{"year":2001,"country":"China","label":"China joins the WTO"},{"year":2008,"country":"United States","label":"Global financial crisis"},{"year":2020,"country":"India","label":"Covid-19 shock"}] };
+window.dash = (() => {
+  const store = {}, calcs = {}, listeners = [];
+  for (const [k, v] of Object.entries(window.EA_DATA)) store[k] = v;
+  const status = (rows) => ({ status: 'ok', data: rows, rows, refreshing: false, meta: [] });
+  let t;
+  window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => listeners.forEach((f) => f()), 120); });
+  return {
+    colors: ['var(--c1)','var(--c2)','var(--c3)','var(--c4)','var(--c5)','var(--c6)','var(--c7)','var(--c8)'],
+    data: (id) => id in store ? status(store[id]) : { status: 'missing', data: [] },
+    calc: (id, o) => { store[id] = o.fn(...o.inputs.map((i) => store[i])); },
+    onData: (fn) => { listeners.push(fn); if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn); else fn(); },
+    params: () => ({}), setParams() {}, resetParams() {}, setLink() {}, refresh() {},
+  };
+})();
+</script>
+<div id="dash-root">
+
+
+<div class="ea">
+  <header class="ea-head" id="top">
+    <h1>Eighty years of Asian divergence</h1>
+    <p class="ea-take">In 1950 South Korea's income per head was
+      $<span class="ea-n dash-skeleton" data-source="summary" data-field="gdppc1950" data-where="country=South Korea">—</span>,
+      India's $<span class="ea-n dash-skeleton" data-source="summary" data-field="gdppc1950" data-where="country=India">—</span>,
+      and China, at $<span class="ea-n dash-skeleton" data-source="summary" data-field="gdppc1950" data-where="country=China">—</span>, was poorer than both.
+      By 2022 Korea was <span class="ea-n dash-skeleton" data-source="summary" data-field="xIndia2022" data-where="country=South Korea">—</span>× India and China
+      <span class="ea-n dash-skeleton" data-source="summary" data-field="xIndia2022" data-where="country=China">—</span>×. The divergence was a choice of decades, not of starting points.</p>
+  </header>
+
+  <section class="ea-tiles" id="headline">
+    <div class="ea-card ea-tile">
+      <div class="ea-lab">India · growth in income per head, 1950–2022</div>
+      <div class="ea-bigrow"><span class="dash-skeleton" data-source="summary" data-field="multiple" data-where="country=India">—</span>×</div>
+      <div class="ea-sub">$<span data-source="summary" data-field="gdppc1950" data-where="country=India">—</span> → $<span data-source="summary" data-field="gdppc2022" data-where="country=India">—</span> · <span data-source="summary" data-field="cagr" data-where="country=India">—</span>% a year</div>
+    </div>
+    <div class="ea-card ea-tile">
+      <div class="ea-lab">China · growth, 1950–2022</div>
+      <div class="ea-bigrow"><span class="dash-skeleton" data-source="summary" data-field="multiple" data-where="country=China">—</span>×</div>
+      <div class="ea-sub">$<span data-source="summary" data-field="gdppc1950" data-where="country=China">—</span> → $<span data-source="summary" data-field="gdppc2022" data-where="country=China">—</span> · <span data-source="summary" data-field="cagr" data-where="country=China">—</span>% a year</div>
+    </div>
+    <div class="ea-card ea-tile">
+      <div class="ea-lab">South Korea · growth, 1950–2022</div>
+      <div class="ea-bigrow"><span class="dash-skeleton" data-source="summary" data-field="multiple" data-where="country=South Korea">—</span>×</div>
+      <div class="ea-sub">$<span data-source="summary" data-field="gdppc1950" data-where="country=South Korea">—</span> → $<span data-source="summary" data-field="gdppc2022" data-where="country=South Korea">—</span> · <span data-source="summary" data-field="cagr" data-where="country=South Korea">—</span>% a year</div>
+    </div>
+    <div class="ea-card ea-tile">
+      <div class="ea-lab">India's 2022 income was China's in</div>
+      <div class="ea-bigrow"><span class="dash-skeleton" data-source="summary" data-field="crossYear" data-where="country=China">—</span></div>
+      <div class="ea-sub">Korea's in <span data-source="summary" data-field="crossYear" data-where="country=South Korea">—</span> · Japan's in <span data-source="summary" data-field="crossYear" data-where="country=Japan">—</span></div>
+    </div>
+  </section>
+
+  <section class="ea-card" id="trajectories">
+    <h2>Trajectories, 1940–2022</h2>
+    <p class="ea-note">GDP per person in 2011 international dollars (PPP). Switch to “× India” to see the gap open, or to “% of US” to see who is converging on the frontier. Before 1950 the series are sparse benchmarks, drawn dashed. Hover for values; the ticks along the bottom are turning points.</p>
+    <div class="ea-controls">
+      <div class="ea-seg" id="ea-mode" role="group" aria-label="Measure">
+        <button type="button" data-mode="level" aria-pressed="true">Income level</button>
+        <button type="button" data-mode="india" aria-pressed="false">× India</button>
+        <button type="button" data-mode="us" aria-pressed="false">% of US</button>
+      </div>
+      <div class="ea-seg" id="ea-scale" role="group" aria-label="Scale">
+        <button type="button" data-scale="log" aria-pressed="true">Log</button>
+        <button type="button" data-scale="linear" aria-pressed="false">Linear</button>
+      </div>
+    </div>
+    <div class="ea-chips" id="ea-chips"></div>
+    <div class="ea-chart dash-skeleton" id="ea-main" data-source="mpd relative events"></div>
+  </section>
+
+  <div class="ea-grid">
+    <section class="ea-card" id="catchup">
+      <h2>How far behind is India?</h2>
+      <p class="ea-note">Years since each economy first reached India's 2022 income per head. China's lead is the most recent, which also makes it the most instructive.</p>
+      <div class="ea-chart ea-sm dash-skeleton" id="ea-lag" data-source="summary"></div>
+    </section>
+    <section class="ea-card" id="convergence">
+      <h2>Who converged, and from when?</h2>
+      <p class="ea-note">Starting income against average growth from the chosen year to 2022. Above the dashed line an economy is closing the gap with the US; a downward slope from left to right is convergence in the textbook sense.</p>
+      <div class="ea-controls"><div class="ea-seg" id="ea-start" role="group" aria-label="Start year"></div></div>
+      <div class="ea-chart ea-sm dash-skeleton" id="ea-scatter" data-source="growth"></div>
+    </section>
+  </div>
+
+  <section class="ea-card" id="decades">
+    <h2>When each economy took off</h2>
+    <p class="ea-note">Average annual growth in income per head by decade. The darker the cell, the faster the decade; red cells are decades of decline.</p>
+    <div class="ea-tablewrap">
+      <table class="ea-table dash-skeleton" id="ea-dec" data-source="decades" data-row-key="country">
+        <thead><tr>
+          <th data-field="country">Economy</th>
+          <th data-field="1950s">1950s</th><th data-field="1960s">1960s</th><th data-field="1970s">1970s</th>
+          <th data-field="1980s">1980s</th><th data-field="1990s">1990s</th><th data-field="2000s">2000s</th>
+          <th data-field="2010s">2010s</th><th data-field="2020–22">2020–22</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="ea-card ea-foot" id="notes">
+    <h2>Reading the data</h2>
+    <p><b>Source.</b> Maddison Project Database 2023 (Bolt and van Zanden), via Our World in Data. Real GDP per capita in 2011 international dollars, so levels compare across countries and across time. Values are rounded to the dollar.</p>
+    <p><b>The 1940s.</b> Annual series only begin in 1950. Earlier points are benchmarks: Korea and Taiwan were Japanese colonies, so their pre-1945 figures are colonial-era reconstructions that do not map cleanly onto today's states; China has a single pre-war point; Hong Kong has none. Treat the dashed segments as orders of magnitude.</p>
+    <p><b>China.</b> Maddison's China series runs higher in later decades than some alternative reconstructions, and its crossover with India comes earlier than nominal-dollar comparisons suggest. The direction of the story does not change; the dates are softer than they look.</p>
+    <p><b>Selection.</b> Japan and the four tigers are the region's winners. Comparing India only with them overstates how unusual India's path was; Indonesia, the Philippines or Thailand would make a less flattering and more honest control group.</p>
+  </section>
+</div>
+
+<script>
+const EA_COUNTRIES = ['India', 'China', 'South Korea', 'Taiwan', 'Japan', 'Hong Kong', 'Singapore'];
+window.eaColor = (c) => c === 'United States' ? 'var(--cds-chart-reference)' : dash.colors[EA_COUNTRIES.indexOf(c)];
+
+  dash.calc('summary', {
+    title: 'Start, end and catch-up by economy',
+    description: 'Per economy: 1940s benchmark, 1950 and 2022 income, growth multiple, annual growth, ratios to India and the US, and the year it first reached India’s 2022 level.',
+    inputs: ['mpd'],
+    fn: (mpd) => {
+      const v = {};
+      for (const r of mpd) (v[r.country] ??= {})[+r.year] = +r.gdppc;
+      const india = v['India'], us = v['United States'];
+      const r1 = (x) => Math.round(x * 10) / 10;
+      return Object.keys(v).map((c) => {
+        const s = v[c];
+        const years = Object.keys(s).map(Number).sort((a, b) => a - b);
+        const y40 = [1940, 1939, 1938].find((y) => s[y] != null) ?? null;
+        const cross = s[1950] >= india[2022] ? null : (years.find((y) => y >= 1950 && s[y] >= india[2022]) ?? null);
+        let overtook = null;
+        for (const y of years) if (y > 1950 && india[y] != null && india[y - 1] != null && s[y - 1] != null && s[y] >= india[y] && s[y - 1] < india[y - 1]) overtook = y;
+        return {
+          country: c,
+          year1940: y40, gdppc1940: y40 == null ? null : s[y40],
+          gdppc1950: s[1950], gdppc2022: s[2022],
+          multiple: r1(s[2022] / s[1950]),
+          cagr: r1((Math.pow(s[2022] / s[1950], 1 / 72) - 1) * 100),
+          xIndia1950: r1(s[1950] / india[1950]), xIndia2022: r1(s[2022] / india[2022]),
+          pctUS1950: Math.round(s[1950] / us[1950] * 100), pctUS2022: Math.round(s[2022] / us[2022] * 100),
+          crossYear: c === 'India' ? null : cross, aheadYears: c === 'India' || cross == null ? null : 2022 - cross,
+          lastOvertookIndia: overtook,
+        };
+      });
+    },
+  });
+
+  dash.calc('relative', {
+    title: 'Income relative to India and US',
+    description: 'Each economy’s income per head each year as a multiple of India’s and as a percentage of the US’s, same year.',
+    inputs: ['mpd'],
+    fn: (mpd) => {
+      const v = {};
+      for (const r of mpd) (v[r.country] ??= {})[+r.year] = +r.gdppc;
+      const out = [];
+      for (const c of Object.keys(v)) for (const y of Object.keys(v[c]).map(Number)) {
+        const g = v[c][y], i = v['India'][y], u = v['United States'][y];
+        out.push({ country: c, year: y, xIndia: i ? Math.round(g / i * 1000) / 1000 : null, pctUS: u ? Math.round(g / u * 1000) / 10 : null });
+      }
+      return out;
+    },
+  });
+
+  dash.calc('growth', {
+    title: 'Growth from start year to 2022',
+    description: 'For start years 1950, 1960, 1970, 1980, 1991, 2000 and 2010: income at the start and average annual growth to 2022, in percent.',
+    inputs: ['mpd'],
+    fn: (mpd) => {
+      const v = {};
+      for (const r of mpd) (v[r.country] ??= {})[+r.year] = +r.gdppc;
+      const out = [];
+      for (const start of [1950, 1960, 1970, 1980, 1991, 2000, 2010]) for (const c of Object.keys(v)) {
+        const a = v[c][start], b = v[c][2022];
+        if (a && b) out.push({ country: c, start, level: a, cagr: Math.round((Math.pow(b / a, 1 / (2022 - start)) - 1) * 10000) / 100 });
+      }
+      return out;
+    },
+  });
+
+  dash.calc('decades', {
+    title: 'Growth by decade',
+    description: 'Average annual growth in income per head over each decade (2020–22 for the last), in percent.',
+    inputs: ['mpd'],
+    fn: (mpd) => {
+      const v = {};
+      for (const r of mpd) (v[r.country] ??= {})[+r.year] = +r.gdppc;
+      const g = (s, a, b) => (s[a] && s[b]) ? Math.round((Math.pow(s[b] / s[a], 1 / (b - a)) - 1) * 1000) / 10 : null;
+      return Object.keys(v).map((c) => {
+        const s = v[c];
+        return { country: c, '1950s': g(s, 1950, 1960), '1960s': g(s, 1960, 1970), '1970s': g(s, 1970, 1980), '1980s': g(s, 1980, 1990),
+          '1990s': g(s, 1990, 2000), '2000s': g(s, 2000, 2010), '2010s': g(s, 2010, 2020), '2020–22': g(s, 2020, 2022) };
+      });
+    },
+  });
+</script>
+
+<script>
+(() => {
+  const COUNTRIES = ['India', 'China', 'South Korea', 'Taiwan', 'Japan', 'Hong Kong', 'Singapore'];
+  const US = 'United States';
+  const color = window.eaColor;
+  const fmt = d3.format(',');
+  const state = { mode: 'level', scale: 'log', hidden: new Set(), start: 1950 };
+  const root = document.getElementById('dash-root') || document;
+
+  const fail = (el, st) => {
+    el.classList.remove('dash-skeleton');
+    el.replaceChildren();
+    if (st === 'error' || st === 'connect' || st === 'declined' || st === 'missing') {
+      const d = document.createElement('div'); d.className = 'ea-fail'; d.textContent = 'Failed to load'; el.appendChild(d);
+    } else el.classList.add('dash-skeleton');
+  };
+  const measure = (svg, texts, cls) => {
+    const g = svg.append('g').style('font-size', 'var(--cds-font-size-caption)');
+    let w = 0;
+    for (const t of texts) { const n = g.append('text').text(t).node(); w = Math.max(w, n.getComputedTextLength()); }
+    g.remove();
+    return w;
+  };
+  const tipFor = (box) => {
+    let tip = box.querySelector('.ea-tip');
+    if (!tip) { tip = document.createElement('div'); tip.className = 'ea-tip'; box.appendChild(tip); }
+    return tip;
+  };
+  const placeTip = (tip, box, x, y) => {
+    tip.style.display = 'block';
+    const bw = box.clientWidth, tw = tip.offsetWidth, th = tip.offsetHeight;
+    let left = x + 14; if (left + tw > bw) left = x - tw - 14; if (left < 0) left = 0;
+    let top = y - th / 2; top = Math.max(0, Math.min(top, box.clientHeight - th));
+    tip.style.left = left + 'px'; tip.style.top = top + 'px';
+  };
+  const row = (tip, c, label, val) => {
+    const r = document.createElement('div'); r.className = 'ea-t-r';
+    const i = document.createElement('i'); i.style.background = color(c);
+    const n = document.createElement('span'); n.textContent = label;
+    const v = document.createElement('span'); v.textContent = val;
+    r.append(i, n, v); tip.appendChild(r);
+  };
+
+  /* ---------- controls ---------- */
+  const modeSeg = document.getElementById('ea-mode'), scaleSeg = document.getElementById('ea-scale');
+  modeSeg.addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; state.mode = b.dataset.mode; drawAll(); });
+  scaleSeg.addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; state.scale = b.dataset.scale; drawAll(); });
+  const chips = document.getElementById('ea-chips');
+  for (const c of [...COUNTRIES, US]) {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'ea-chip'; b.dataset.c = c;
+    const i = document.createElement('i'); if (c === US) i.className = 'ea-dash'; else i.style.background = color(c);
+    b.append(i, document.createTextNode(c === US ? 'US (frontier)' : c));
+    b.addEventListener('click', () => { state.hidden.has(c) ? state.hidden.delete(c) : state.hidden.add(c); drawAll(); });
+    chips.appendChild(b);
+  }
+  const startSeg = document.getElementById('ea-start');
+  startSeg.addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; state.start = +b.dataset.start; drawAll(); });
+
+  /* ---------- tiles ---------- */
+  function drawTiles() {
+    const s = dash.data('summary');
+    document.querySelectorAll('[data-source="summary"][data-field]').forEach((el) => {
+      if (s.status !== 'ok') { el.textContent = '—'; return; }
+      el.classList.remove('dash-skeleton');
+      const c = new URLSearchParams(el.dataset.where).get('country');
+      const r = s.data.find((d) => d.country === c);
+      const v = r ? r[el.dataset.field] : null;
+      const f = el.dataset.field;
+      el.textContent = v == null ? '—' : (f.startsWith('gdppc') ? fmt(v) : (f === 'crossYear' ? String(v) : d3.format('.1f')(v)));
+    });
+  }
+
+  /* ---------- main chart ---------- */
+  function drawMain() {
+    const box = document.getElementById('ea-main');
+    const m = dash.data('mpd'), rel = dash.data('relative'), ev = dash.data('events');
+    modeSeg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === state.mode)));
+    scaleSeg.hidden = state.mode !== 'level';
+    scaleSeg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.scale === state.scale)));
+    chips.querySelectorAll('.ea-chip').forEach((b) => b.setAttribute('aria-pressed', String(!state.hidden.has(b.dataset.c))));
+    const need = state.mode === 'level' ? m : rel;
+    if (need.status !== 'ok') { fail(box, need.status); return; }
+    box.classList.remove('dash-skeleton');
+    const tip = tipFor(box);
+    box.querySelectorAll('svg').forEach((n) => n.remove());
+    const W = box.clientWidth; if (!W) return;
+    const H = 420;
+
+    const key = state.mode === 'level' ? 'gdppc' : state.mode === 'india' ? 'xIndia' : 'pctUS';
+    const src = state.mode === 'level' ? m.data : rel.data;
+    const shown = [...COUNTRIES, US].filter((c) => !state.hidden.has(c) && !(state.mode === 'us' && c === US));
+    const series = shown.map((c) => {
+      const map = new Map();
+      for (const r of src) if (r.country === c && r[key] != null && r[key] !== '') map.set(+r.year, +r[key]);
+      return { c, map };
+    });
+    const yrs = d3.range(1938, 2023);
+    const all = series.flatMap((s) => [...s.map.values()]);
+    if (!all.length) { box.replaceChildren(tip); return; }
+
+    const isLog = state.mode === 'india' || (state.mode === 'level' && state.scale === 'log');
+    const fmtV = state.mode === 'level' ? (v) => '$' + fmt(Math.round(v)) : state.mode === 'india' ? (v) => d3.format('.2~f')(v) + '×' : (v) => d3.format('.0f')(v) + '%';
+    const tickF = state.mode === 'level' ? (v) => '$' + d3.format('~s')(v) : state.mode === 'india' ? (v) => d3.format('~g')(v) + '×' : (v) => v + '%';
+
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`);
+    let y;
+    if (isLog) {
+      const lo = d3.min(all), hi = d3.max(all);
+      y = d3.scaleLog([lo * 0.85, hi * 1.15], [0, 0]);
+    } else y = d3.scaleLinear([0, d3.max(all) * 1.05], [0, 0]).nice();
+    let ticks;
+    if (isLog) {
+      const cand = state.mode === 'level' ? [500, 1000, 2000, 5000, 10000, 20000, 50000, 100000] : [0.5, 1, 2, 5, 10, 20];
+      const [a, b] = y.domain(); ticks = cand.filter((t) => t >= a && t <= b);
+    } else ticks = y.ticks(6);
+    const left = measure(svg, ticks.map(tickF)) + 10;
+    const last = new Map(series.map((s) => [s.c, s.map.get(2022)]));
+    const narrow = W < 560;
+    const endLabel = (c) => (c === US ? 'US' : c) + (narrow || last.get(c) == null ? '' : ' ' + fmtV(last.get(c)));
+    const right = Math.min(W * 0.32, measure(svg, series.map((s) => endLabel(s.c))) + 14);
+    const M = { t: 18, r: right, b: 40, l: left };
+    const x = d3.scaleLinear([1938, 2022], [M.l, W - M.r]);
+    y.range([H - M.b, M.t]);
+
+    // pre-1950 band
+    svg.append('rect').attr('x', x(1938)).attr('y', M.t).attr('width', x(1950) - x(1938)).attr('height', H - M.b - M.t)
+      .style('fill', 'var(--color-fg)').attr('opacity', 0.04);
+    if (x(1950) - x(1938) > 70) svg.append('text').attr('x', x(1938) + 4).attr('y', M.t + 12).style('font-size', 'var(--cds-font-size-caption)')
+      .style('fill', 'var(--color-fg-muted)').text('War & colonial years');
+
+    // grid + axes
+    const g = svg.append('g');
+    g.selectAll('line.gr').data(ticks).join('line').attr('x1', M.l).attr('x2', W - M.r).attr('y1', (d) => y(d)).attr('y2', (d) => y(d))
+      .style('stroke', 'var(--cds-chart-grid)');
+    g.selectAll('text.yt').data(ticks).join('text').attr('x', M.l - 8).attr('y', (d) => y(d)).attr('dy', '0.32em').attr('text-anchor', 'end')
+      .style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg-muted)').text(tickF);
+    const xt = (W < 520 ? [1940, 1960, 1980, 2000, 2020] : d3.range(1940, 2021, 10));
+    g.selectAll('text.xt').data(xt).join('text').attr('x', (d) => x(d)).attr('y', H - M.b + 30).attr('text-anchor', 'middle')
+      .style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg-muted)').text((d) => d);
+    g.append('line').attr('x1', M.l).attr('x2', W - M.r).attr('y1', H - M.b).attr('y2', H - M.b).style('stroke', 'var(--cds-chart-axis)');
+    // reference line
+    const ref = state.mode === 'india' ? 1 : state.mode === 'us' ? 100 : null;
+    if (ref != null && ref >= y.domain()[0] && ref <= y.domain()[1]) {
+      g.append('line').attr('x1', M.l).attr('x2', W - M.r).attr('y1', y(ref)).attr('y2', y(ref)).style('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 4');
+      g.append('text').attr('x', M.l + 4).attr('y', y(ref) - 5).style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg-muted)')
+        .text(state.mode === 'india' ? 'India = 1' : 'US level');
+    }
+
+    // events
+    const evs = ev.status === 'ok' ? ev.data.filter((e) => e.country === US || !state.hidden.has(e.country)) : [];
+    const evByYear = d3.group(evs, (e) => +e.year);
+    const eg = svg.append('g');
+    for (const [yr] of evByYear) {
+      eg.append('line').attr('x1', x(yr)).attr('x2', x(yr)).attr('y1', M.t).attr('y2', H - M.b).style('stroke', 'var(--cds-chart-grid)').attr('stroke-dasharray', '2 3');
+      eg.append('path').attr('d', d3.symbol(d3.symbolTriangle, 34)()).attr('transform', `translate(${x(yr)},${H - M.b + 9})`)
+        .style('fill', 'var(--color-fg-muted)');
+    }
+
+    // lines
+    const line = d3.line().defined((d) => d.v != null).x((d) => x(d.y)).y((d) => y(d.v));
+    const lg = svg.append('g').style('fill', 'none').attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
+    for (const s of series) {
+      const pts = yrs.map((yy) => ({ y: yy, v: s.map.get(yy) ?? null }));
+      const pre = pts.filter((d) => d.y <= 1950), post = pts.filter((d) => d.y >= 1950);
+      const isUS = s.c === US, isIndia = s.c === 'India';
+      lg.append('path').attr('d', line(pre)).style('stroke', color(s.c)).attr('stroke-width', 1.5).attr('stroke-dasharray', '3 3').attr('opacity', 0.7);
+      lg.append('path').attr('d', line(post)).style('stroke', color(s.c)).attr('stroke-width', isIndia ? 3 : 2)
+        .attr('stroke-dasharray', isUS ? '6 4' : null).attr('stroke-linecap', isUS ? 'butt' : 'round');
+      const iso = pre.filter((d, i) => d.v != null && d.y < 1950 && (pre[i - 1]?.v == null) && (pre[i + 1]?.v == null));
+      lg.selectAll(null).data(iso).join('circle').attr('cx', (d) => x(d.y)).attr('cy', (d) => y(d.v)).attr('r', 3).style('fill', color(s.c)).style('stroke', 'none');
+    }
+
+    // end labels, nudged apart
+    const labs = series.filter((s) => last.get(s.c) != null).map((s) => ({ c: s.c, y0: y(last.get(s.c)), y: y(last.get(s.c)) })).sort((a, b) => a.y - b.y);
+    for (let k = 0; k < 30; k++) for (let i = 1; i < labs.length; i++) if (labs[i].y - labs[i - 1].y < 14) { const d = (14 - (labs[i].y - labs[i - 1].y)) / 2; labs[i].y += d; labs[i - 1].y -= d; }
+    const lab = svg.append('g').style('font-size', 'var(--cds-font-size-caption)');
+    for (const l of labs) {
+      lab.append('text').attr('x', W - M.r + 6).attr('y', l.y).attr('dy', '0.32em').style('fill', color(l.c)).attr('font-weight', l.c === 'India' ? 600 : 400)
+        .text(endLabel(l.c));
+    }
+
+    // hover
+    const rule = svg.append('line').attr('y1', M.t).attr('y2', H - M.b).style('stroke', 'var(--cds-chart-axis)').attr('opacity', 0);
+    const dots = svg.append('g');
+    svg.append('rect').attr('x', M.l).attr('y', M.t).attr('width', W - M.l - M.r).attr('height', H - M.t - M.b + 18).style('fill', 'transparent')
+      .on('mousemove', (event) => {
+        const [mx, my] = d3.pointer(event);
+        const yr = Math.round(x.invert(mx));
+        rule.attr('x1', x(yr)).attr('x2', x(yr)).attr('opacity', 1);
+        const vals = series.map((s) => ({ c: s.c, v: s.map.get(yr) })).filter((d) => d.v != null).sort((a, b) => b.v - a.v);
+        dots.selectAll('circle').data(vals).join('circle').attr('cx', x(yr)).attr('cy', (d) => y(d.v)).attr('r', 4).style('fill', (d) => color(d.c))
+          .style('stroke', 'var(--color-panel)').attr('stroke-width', 1.5);
+        tip.replaceChildren();
+        const h = document.createElement('div'); h.className = 'ea-t-h'; h.textContent = yr < 1950 ? yr + ' · benchmark' : String(yr); tip.appendChild(h);
+        for (const e of (evByYear.get(yr) || [])) { const d = document.createElement('div'); d.className = 'ea-t-ev'; d.textContent = e.label; tip.appendChild(d); }
+        if (!vals.length) { const d = document.createElement('div'); d.textContent = 'No estimates this year'; tip.appendChild(d); }
+        for (const d of vals) row(tip, d.c, d.c === US ? 'US' : d.c, fmtV(d.v));
+        placeTip(tip, box, mx, my);
+      })
+      .on('mouseleave', () => { rule.attr('opacity', 0); dots.selectAll('*').remove(); tip.style.display = 'none'; });
+  }
+
+  /* ---------- catch-up bars ---------- */
+  function drawLag() {
+    const box = document.getElementById('ea-lag');
+    const s = dash.data('summary');
+    if (s.status !== 'ok') { fail(box, s.status); return; }
+    box.classList.remove('dash-skeleton');
+    box.querySelectorAll('svg').forEach((n) => n.remove());
+    const W = box.clientWidth; if (!W) return;
+    const rows = s.data.filter((r) => COUNTRIES.includes(r.country) && r.aheadYears != null).sort((a, b) => b.aheadYears - a.aheadYears);
+    const H = Math.max(320, rows.length * 40 + 30);
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`);
+    const L = measure(svg, rows.map((r) => r.country)) + 12;
+    const R = measure(svg, rows.map((r) => `${r.aheadYears} yrs · since ${r.crossYear}`)) + 10;
+    const x = d3.scaleLinear([0, d3.max(rows, (r) => r.aheadYears) || 1], [L, Math.max(L + 40, W - R)]);
+    const yb = d3.scaleBand(rows.map((r) => r.country), [10, H - 20]).padding(0.35);
+    const g = svg.append('g').style('font-size', 'var(--cds-font-size-caption)');
+    for (const r of rows) {
+      const yy = yb(r.country), bh = Math.min(28, yb.bandwidth());
+      g.append('text').attr('x', L - 10).attr('y', yy + yb.bandwidth() / 2).attr('dy', '0.32em').attr('text-anchor', 'end').style('fill', 'var(--color-fg)').text(r.country);
+      g.append('rect').attr('x', L).attr('y', yy + (yb.bandwidth() - bh) / 2).attr('height', bh).attr('width', Math.max(2, x(r.aheadYears) - L)).attr('rx', 4).style('fill', color(r.country));
+      g.append('text').attr('x', x(r.aheadYears) + 6).attr('y', yy + yb.bandwidth() / 2).attr('dy', '0.32em').style('fill', 'var(--color-fg-muted)')
+        .style('font-variant-numeric', 'tabular-nums').text(`${r.aheadYears} yrs · since ${r.crossYear}`);
+    }
+  }
+
+  /* ---------- convergence scatter ---------- */
+  function drawScatter() {
+    const box = document.getElementById('ea-scatter');
+    const gr = dash.data('growth');
+    if (gr.status !== 'ok') { fail(box, gr.status); startSeg.replaceChildren(); return; }
+    const starts = [...new Set(gr.data.map((r) => +r.start))].sort((a, b) => a - b);
+    if (!starts.includes(state.start)) state.start = starts[0];
+    startSeg.replaceChildren(...starts.map((s) => { const b = document.createElement('button'); b.type = 'button'; b.dataset.start = s; b.textContent = 'From ' + s; b.setAttribute('aria-pressed', String(s === state.start)); return b; }));
+    box.classList.remove('dash-skeleton');
+    const tip = tipFor(box);
+    box.querySelectorAll('svg').forEach((n) => n.remove());
+    const W = box.clientWidth; if (!W) return;
+    const H = 320;
+    const rows = gr.data.filter((r) => +r.start === state.start).map((r) => ({ c: r.country, lv: +r.level, g: +r.cagr }));
+    const usRow = rows.find((r) => r.c === US);
+    const pts = rows.filter((r) => r.c !== US);
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`);
+    const gExt = d3.extent(rows, (r) => r.g);
+    const y = d3.scaleLinear([Math.min(0, gExt[0]) - 0.5, gExt[1] + 0.8], [H - 36, 12]).nice();
+    const yt = y.ticks(5);
+    const L = measure(svg, yt.map((t) => t + '%')) + 10;
+    const lvExt = d3.extent(pts, (r) => r.lv);
+    const x = d3.scaleLog([lvExt[0] / 1.4, lvExt[1] * 1.6], [L, W - 12]);
+    const g = svg.append('g').style('font-size', 'var(--cds-font-size-caption)');
+    g.selectAll('line.g').data(yt).join('line').attr('x1', L).attr('x2', W - 12).attr('y1', (d) => y(d)).attr('y2', (d) => y(d)).style('stroke', 'var(--cds-chart-grid)');
+    g.selectAll('text.y').data(yt).join('text').attr('x', L - 8).attr('y', (d) => y(d)).attr('dy', '0.32em').attr('text-anchor', 'end').style('fill', 'var(--color-fg-muted)').text((d) => d + '%');
+    const xt = [500, 1000, 2000, 5000, 10000, 20000, 50000].filter((t) => t >= x.domain()[0] && t <= x.domain()[1]);
+    g.selectAll('text.x').data(xt).join('text').attr('x', (d) => x(d)).attr('y', H - 18).attr('text-anchor', 'middle').style('fill', 'var(--color-fg-muted)').text((d) => '$' + d3.format('~s')(d));
+    g.append('text').attr('x', W - 12).attr('y', H - 2).attr('text-anchor', 'end').style('fill', 'var(--color-fg-muted)').text(`Income per head in ${state.start} (log)`);
+    if (usRow) {
+      g.append('line').attr('x1', L).attr('x2', W - 12).attr('y1', y(usRow.g)).attr('y2', y(usRow.g)).style('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '6 4');
+      g.append('text').attr('x', W - 14).attr('y', y(usRow.g) - 5).attr('text-anchor', 'end').style('fill', 'var(--color-fg-muted)').text(`US growth ${d3.format('.1f')(usRow.g)}%`);
+    }
+    // labels with simple collision avoidance
+    const labs = pts.map((p) => ({ ...p, px: x(p.lv), py: y(p.g), ly: y(p.g) })).sort((a, b) => a.py - b.py);
+    for (let k = 0; k < 30; k++) for (let i = 1; i < labs.length; i++) {
+      if (Math.abs(labs[i].px - labs[i - 1].px) < 90 && labs[i].ly - labs[i - 1].ly < 13) { const d = (13 - (labs[i].ly - labs[i - 1].ly)) / 2; labs[i].ly += d; labs[i - 1].ly -= d; }
+    }
+    for (const p of labs) {
+      g.append('circle').attr('cx', p.px).attr('cy', p.py).attr('r', p.c === 'India' ? 7 : 6).style('fill', color(p.c)).style('stroke', 'var(--color-panel)').attr('stroke-width', 1.5);
+      const anchorEnd = p.px > W - 110;
+      g.append('text').attr('x', p.px + (anchorEnd ? -10 : 10)).attr('y', p.ly).attr('dy', '0.32em').attr('text-anchor', anchorEnd ? 'end' : 'start')
+        .style('fill', 'var(--color-fg)').attr('font-weight', p.c === 'India' ? 600 : 400).text(p.c);
+    }
+    const vor = d3.Delaunay.from(labs, (d) => d.px, (d) => d.py);
+    svg.append('rect').attr('x', L).attr('y', 0).attr('width', W - L).attr('height', H - 30).style('fill', 'transparent')
+      .on('mousemove', (event) => {
+        const [mx, my] = d3.pointer(event); const p = labs[vor.find(mx, my)]; if (!p) return;
+        tip.replaceChildren();
+        const h = document.createElement('div'); h.className = 'ea-t-h'; h.textContent = `${p.c} · ${state.start}–2022`; tip.appendChild(h);
+        row(tip, p.c, 'Start', '$' + fmt(p.lv));
+        row(tip, p.c, 'Growth', d3.format('.2f')(p.g) + '% a year');
+        if (usRow) row(tip, p.c, 'vs US', (p.g - usRow.g >= 0 ? '+' : '') + d3.format('.2f')(p.g - usRow.g) + ' pts');
+        placeTip(tip, box, p.px, p.py);
+      })
+      .on('mouseleave', () => { tip.style.display = 'none'; });
+  }
+
+  /* ---------- decade table ---------- */
+  function drawTable() {
+    const t = document.getElementById('ea-dec');
+    const d = dash.data('decades');
+    const body = t.querySelector('tbody');
+    if (d.status !== 'ok') { body.replaceChildren(); if (d.status !== 'loading') t.classList.remove('dash-skeleton'); return; }
+    t.classList.remove('dash-skeleton');
+    const cols = ['1950s', '1960s', '1970s', '1980s', '1990s', '2000s', '2010s', '2020–22'];
+    const order = [...COUNTRIES, US];
+    const rows = [...d.data].sort((a, b) => order.indexOf(a.country) - order.indexOf(b.country));
+    body.replaceChildren(...rows.map((r) => {
+      const tr = document.createElement('tr');
+      const k = document.createElement('td'); k.textContent = r.country; tr.appendChild(k);
+      for (const c of cols) {
+        const td = document.createElement('td'); const v = r[c];
+        td.textContent = v == null ? '—' : d3.format('.1f')(v) + '%';
+        if (v != null) {
+          const pct = Math.round(Math.min(Math.abs(v) / 10, 1) * 55);
+          td.style.background = `color-mix(in srgb, ${v >= 0 ? 'var(--color-ok)' : 'var(--color-bad)'} ${pct}%, transparent)`;
+        }
+        tr.appendChild(td);
+      }
+      return tr;
+    }));
+  }
+
+  function drawAll() { drawTiles(); drawMain(); drawLag(); drawScatter(); drawTable(); }
+  dash.onData(drawAll);
+})();
+</script>
+
+<p class="ea-credit">Data: <a href="https://www.rug.nl/ggdc/historicaldevelopment/maddison/releases/maddison-project-database-2023">Maddison Project Database 2023</a> (Bolt and van Zanden), via <a href="https://ourworldindata.org/grapher/gdp-per-capita-maddison-project-database">Our World in Data</a>, CC BY 4.0. Built for <i>The Gentle Leviathan</i>.</p>
+</div>
+</body>
+</html>
